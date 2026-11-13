@@ -584,7 +584,9 @@ input[type="submit"]:hover, .wpcf7-submit:hover { background: var(--navy); }
 
 /* ---------- Footer ---------- */
 .site-footer { background: var(--navy-deep); color: #CFDDEB; margin-top: 0; }
-.wave-band { display: block; width: 100%; height: clamp(28px, 4vw, 54px); margin-bottom: -1px; color: var(--navy-deep); background: transparent; }
+.site-footer { position: relative; }
+/* Welle liegt über dem Ende des letzten Abschnitts – dessen Farbe scheint durch, kein weißer Streifen */
+.site-footer > .wave-band { position: absolute; left: 0; right: 0; bottom: calc(100% - 1px); display: block; width: 100%; height: clamp(28px, 4vw, 54px); color: var(--navy-deep); pointer-events: none; }
 .site-footer__inner {
 	max-width: calc(var(--wide) + 2 * var(--gutter));
 	margin: 0 auto;
@@ -701,7 +703,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: 800; }
 		linear-gradient(180deg, rgba(7, 42, 79, .5) 0%, rgba(7, 42, 79, .82) 100%);
 }
 .front-hero__content { text-align: center; }
-.front-hero__title { font-weight: 800; max-width: 18ch; margin-inline: auto; font-size: clamp(2.1rem, 1.2rem + 3.6vw, 4.2rem); line-height: 1.08; text-shadow: 0 2px 24px rgba(7, 42, 79, .35); }
+.front-hero__title { font-weight: 800; max-width: 20ch; margin-inline: auto; font-size: clamp(2rem, 1.1rem + 2.8vw, 3.6rem); line-height: 1.1; text-shadow: 0 2px 24px rgba(7, 42, 79, .35); }
 .front-hero .sun-wave { margin-inline: auto; }
 .front-hero__text { margin-inline: auto; }
 .front-hero__actions { justify-content: center; }
@@ -851,3 +853,13 @@ h1, h2, h3, h4, h5, h6 { font-weight: 800; }
 .is-style-fvbb-sunbox > .wp-block-heading { margin-top: 0; }
 .is-style-fvbb-sunbox .wp-block-buttons { justify-content: center; }
 .fvbb-overlap .fvbb-cards p { font-size: 1.02rem; }
+
+/* Karten ragen ins Kopfbild: Buttons im Kopfbild bleiben frei (Abstand = wie weit die Karten hineinragen + Luft) */
+body.has-fvbb-overlap .front-hero__content { padding-bottom: calc(clamp(4.5rem, 9vw, 7.5rem) + clamp(3rem, 6vw, 4.5rem)); }
+body.has-fvbb-overlap .front-hero { min-height: clamp(520px, 78vh, 820px); }
+@media (max-width: 600px) {
+	body.has-fvbb-overlap .front-hero__content { padding-top: 2.5rem; }
+}
+
+/* Text im Kopfbild besser lesbar auf hellem Wasser */
+.front-hero__text { font-weight: 500; text-shadow: 0 1px 14px rgba(7, 42, 79, .55); }

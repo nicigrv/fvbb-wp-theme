@@ -61,7 +61,7 @@ function fvbb_parent_link() {
 			);
 		}
 	} elseif ( is_singular( 'post' ) ) {
-		$cats = get_the_category( get_queried_object_id() );
+		$cats = fvbb_visible_categories( get_queried_object_id() );
 		if ( $cats ) {
 			printf(
 				'<a class="page-hero__parent" href="%s">%s</a>',
@@ -146,7 +146,7 @@ function fvbb_wave() {
  * Datum + Kategorie eines Beitrags.
  */
 function fvbb_post_meta() {
-	$cats = get_the_category();
+	$cats = fvbb_visible_categories();
 	echo '<div class="post-meta">';
 	if ( $cats ) {
 		printf( '<a class="pill" href="%s">%s</a>', esc_url( get_category_link( $cats[0] ) ), esc_html( $cats[0]->name ) );
@@ -264,4 +264,18 @@ function fvbb_footer_fallback() {
 		echo ( $addr ? '<br>' : '' ) . '<a href="mailto:' . esc_attr( antispambot( $email ) ) . '">' . esc_html( antispambot( $email ) ) . '</a>';
 	}
 	echo '</p></div>';
+}
+
+/**
+ * Kategorien eines Beitrags ohne die Standardkategorie („Uncategorized“/„Allgemein“) –
+ * die sagt nichts aus, wenn alle Beiträge darin liegen.
+ *
+ * @param int|null $post_id Beitrag.
+ * @return WP_Term[]
+ */
+function fvbb_visible_categories( $post_id = null ) {
+	$default = (int) get_option( 'default_category' );
+	return array_values( array_filter( get_the_category( $post_id ), function ( $c ) use ( $default ) {
+		return (int) $c->term_id !== $default && ! in_array( $c->slug, array( 'uncategorized', 'allgemein', 'unkategorisiert' ), true );
+	} ) );
 }

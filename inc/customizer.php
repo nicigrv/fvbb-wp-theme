@@ -59,6 +59,26 @@ add_filter( 'theme_mod_custom_logo', function ( $value ) {
 } );
 
 /**
+ * Untertitel aus dem alten Theme – nur wenn er dort auch angezeigt wurde.
+ * Mesmerize speichert einen Standard-Untertitel, blendet ihn aber aus, solange er nicht eingeschaltet ist.
+ *
+ * @return string
+ */
+function fvbb_legacy_subtitle() {
+	$legacy = fvbb_legacy_mods();
+	$text   = isset( $legacy['header_subtitle'] ) ? trim( wp_strip_all_tags( (string) $legacy['header_subtitle'] ) ) : '';
+	if ( '' === $text ) {
+		return '';
+	}
+	foreach ( $legacy as $key => $val ) {
+		if ( preg_match( '/subtitle.*(show|enabled|visible)|(show|enabled|visible).*subtitle/', (string) $key ) ) {
+			return $val ? $text : '';
+		}
+	}
+	return ''; // Kein Schalter gefunden: wie bei Mesmerize ausgeblendet.
+}
+
+/**
  * Bild-ID aus einem Wert (ID oder URL).
  *
  * @param mixed $val Wert.
@@ -102,7 +122,7 @@ function fvbb_defaults() {
 
 	$defaults = array(
 		'hero_title'        => wp_strip_all_tags( (string) fvbb_legacy_mod( 'header_title', get_bloginfo( 'name' ) ) ),
-		'hero_text'         => wp_strip_all_tags( (string) fvbb_legacy_mod( 'header_subtitle', '' ) ),
+		'hero_text'         => fvbb_legacy_subtitle(),
 		'hero_btn1_label'   => isset( $btn['label'] ) ? $btn['label'] : '',
 		'hero_btn1_url'     => isset( $btn['url'] ) ? $btn['url'] : '',
 		'hero_btn2_label'   => '',

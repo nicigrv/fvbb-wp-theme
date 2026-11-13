@@ -5,8 +5,8 @@
  * @package fvbb
  */
 ?>
-<svg class="wave-band" viewBox="0 0 1440 54" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path fill="currentColor" d="M0 30c140-22 260-26 380-12s250 30 380 22 240-34 380-36 200 14 300 22v28H0z"/></svg>
 <footer class="site-footer">
+	<svg class="wave-band" viewBox="0 0 1440 54" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path fill="currentColor" d="M0 30c140-22 260-26 380-12s250 30 380 22 240-34 380-36 200 14 300 22v28H0z"/></svg>
 	<div class="site-footer__inner">
 		<div class="footer-brand">
 			<p class="footer-brand__name"><?php echo esc_html( fvbb_opt( 'footer_brand' ) ); ?></p>

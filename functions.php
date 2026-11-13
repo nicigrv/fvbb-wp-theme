@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'FVBB_THEME_VERSION', '1.0.0' );
+define( 'FVBB_THEME_VERSION', '1.0.1' );
 define( 'FVBB_THEME_DIR', get_stylesheet_directory() );
 define( 'FVBB_THEME_URI', get_stylesheet_directory_uri() );
 
@@ -220,3 +220,14 @@ add_filter( 'nav_menu_css_class', function ( $classes, $item, $args, $depth ) {
 	}
 	return $classes;
 }, 10, 4 );
+
+/* Startseite mit Karten, die ins Kopfbild ragen: dem Kopfbild unten mehr Platz geben */
+add_filter( 'body_class', function ( $classes ) {
+	if ( is_front_page() && is_page() ) {
+		$post = get_queried_object();
+		if ( $post instanceof WP_Post && false !== strpos( $post->post_content, 'fvbb-overlap' ) ) {
+			$classes[] = 'has-fvbb-overlap';
+		}
+	}
+	return $classes;
+} );
